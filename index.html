@@ -1,7 +1,50 @@
-<html>
-<head>
-</head>
-<body>
-Hello World
-</body>
-</html>
+---
+layout: default
+title: Blogging Like a Hacker
+---
+<!-- This loops through the paginated posts -->
+{% for post in paginator.posts %}
+  <h1><a href="{{ post.url }}">{{ post.title }}</a></h1>
+  <p class="author">
+    <span class="date">{{ post.date }}</span>
+  </p>
+  <div class="content">
+    {{ post.content }}
+  </div>
+{% endfor %}
+
+<!-- Pagination links -->
+<div class="row-fluid">
+  <div class="span12">
+    <nav>
+      <ul class="pagination">
+        {% if paginator.previous_page %}
+          {% if paginator.previous_page == 1 %}
+          <li><a href="/">Prev</a></li>
+          {% else %}
+          <li><a href="/page{{ paginator.previous_page }}">Prev</a></li>
+          {% endif %}
+        {% else %}
+        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+        {% endif %}
+        {% if paginator.page == 1 %}
+        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+        {% else %}
+        <li><a href="/">1</a></li>
+        {% endif %}
+        {% for count in (2..paginator.total_pages) %}
+          {% if count == paginator.page %}
+          <li class="active"><a href="#">{{ count }}<span class="sr-only">(current)</span></a></li>
+          {% else %}
+          <li><a href="/page{{ count }}">{{ count }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if paginator.next_page %}
+        <li><a href="/page{{ paginator.next_page }}">Next</a></li>
+        {% else %}
+        <li class="disabled"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</div>
